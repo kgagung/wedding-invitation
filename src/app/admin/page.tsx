@@ -1,14 +1,23 @@
-import { prisma } from "@/lib/prisma";
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default async function AdminPage() {
-  const tamu: {
-    id: number;
-    nama: string;
-    alamat: string;
-    hadir: boolean;
-    kode: string;
-  }[] = await prisma.tamu.findMany();
+type Tamu = {
+  id: number;
+  nama: string;
+  alamat: string;
+  hadir: boolean;
+  kode: string;
+};
+
+export default function AdminPage() {
+  const [tamu, setTamu] = useState<Tamu[]>([]);
+
+  useEffect(() => {
+    fetch("/api/tamu")
+      .then((res) => res.json())
+      .then(setTamu);
+  }, []);
 
   return (
     <div className="max-w-4xl mx-auto mt-8">
@@ -31,31 +40,23 @@ export default async function AdminPage() {
           </tr>
         </thead>
         <tbody>
-          {tamu.map(
-            (t: {
-              id: number;
-              nama: string;
-              alamat: string;
-              hadir: boolean;
-              kode: string;
-            }) => (
-              <tr key={t.id}>
-                <td>{t.nama}</td>
-                <td>{t.alamat}</td>
-                <td>{t.hadir ? "✅" : "❌"}</td>
-                <td>{t.kode}</td>
-                <td>
-                  <a
-                    href={`/${t.kode}`}
-                    target="_blank"
-                    className="text-blue-500 underline"
-                  >
-                    Buka Undangan
-                  </a>
-                </td>
-              </tr>
-            )
-          )}
+          {tamu.map((t) => (
+            <tr key={t.id}>
+              <td>{t.nama}</td>
+              <td>{t.alamat}</td>
+              <td>{t.hadir ? "✅" : "❌"}</td>
+              <td>{t.kode}</td>
+              <td>
+                <a
+                  href={`/${t.kode}`}
+                  target="_blank"
+                  className="text-blue-500 underline"
+                >
+                  Buka Undangan
+                </a>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
