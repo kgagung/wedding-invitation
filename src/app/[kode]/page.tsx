@@ -2,11 +2,20 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
+
+type Tamu = {
+  id: number;
+  nama: string;
+  kode: string;
+  alamat: string;
+  hadir: boolean;
+};
 
 export default function UndanganPage() {
   const params = useParams();
   const kode = params?.kode as string;
-  const [tamu, setTamu] = useState<any>(null);
+  const [tamu, setTamu] = useState<Tamu | null>(null);
   const [loading, setLoading] = useState(true);
 
   const [started, setStarted] = useState(false); // tombol sudah ditekan
@@ -79,19 +88,19 @@ export default function UndanganPage() {
         `}
       >
         {/* Contoh bunga animasi di tiap sisi */}
-        <img
+        <Image
           src="/bunga-banyak.png"
           alt="bunga banyak"
           className="absolute top-0 left-0 w-40 animate-float"
           style={{ animationDelay: "0s" }}
         />
-        <img
+        <Image
           src="/bunga-biru.png"
           alt="bunga biru"
           className="absolute bottom-0 right-0 w-40 animate-bunga-muncul"
           style={{ animationDelay: "0.5s" }}
         />
-        <img
+        <Image
           src="/bunga-kuning.png"
           alt="bunga kuning"
           className="absolute bottom-1/3 right-0 w-32 animate-float animate-bunga-muncul"

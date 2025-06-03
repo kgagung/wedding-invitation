@@ -16,9 +16,9 @@ export default async function AdminPage() {
       <Link href="/admin/add" className="text-blue-600 mb-4 block">
         + Tambah Tamu
       </Link>
-      <a href="/admin/export" className="text-green-600 block mb-4">
+      <Link href="/admin/export" className="text-green-600 block mb-4">
         📤 Export ke Excel
-      </a>
+      </Link>
 
       <table className="w-full border">
         <thead>
