@@ -64,7 +64,7 @@ export default function UndanganPage() {
 
       {/* Overlay full screen awal */}
       <div
-        className={`fixed inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center z-50
+        className={`fixed inset-0 bg-opacity-90 flex flex-col items-center justify-center z-50
           transition-opacity duration-1000
           ${started ? "opacity-0 pointer-events-none" : "opacity-100"}
         `}
