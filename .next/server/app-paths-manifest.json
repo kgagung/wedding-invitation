@@ -1,10 +1,8 @@
 {
+  "/[kode]/page": "app/[kode]/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/page": "app/admin/page.js",
   "/api/tamu/[kode]/route": "app/api/tamu/[kode]/route.js",
   "/api/tamu/route": "app/api/tamu/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/[kode]/page": "app/[kode]/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/add/page": "app/admin/add/page.js",
-  "/page": "app/page.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }

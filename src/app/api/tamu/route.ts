@@ -15,3 +15,8 @@ export async function POST(req: Request) {
 
   return NextResponse.json({ status: "ok" });
 }
+
+export async function GET() {
+  const tamu = await prisma.tamu.findMany();
+  return NextResponse.json(tamu);
+}

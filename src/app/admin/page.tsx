@@ -42,11 +42,11 @@ export default function AdminPage() {
         <tbody>
           {tamu.map((t) => (
             <tr key={t.id}>
-              <td>{t.nama}</td>
-              <td>{t.alamat}</td>
-              <td>{t.hadir ? "✅" : "❌"}</td>
-              <td>{t.kode}</td>
-              <td>
+              <td className="text-center">{t.nama}</td>
+              <td className="text-center">{t.alamat}</td>
+              <td className="text-center">{t.hadir ? "✅" : "❌"}</td>
+              <td className="text-center">{t.kode}</td>
+              <td className="text-center">
                 <a
                   href={`/${t.kode}`}
                   target="_blank"
