@@ -82,7 +82,7 @@ export default function UndanganPage() {
         <img
           src="/bunga-banyak.png"
           alt="bunga banyak"
-          className="absolute top-0 left-0 w-40 animate-bunga-muncul"
+          className="absolute top-0 left-0 w-40 animate-float"
           style={{ animationDelay: "0s" }}
         />
         <img

@@ -170,7 +170,7 @@ function UndanganPage() {
                         style: {
                             animationDelay: "0s"
                         },
-                        className: "jsx-a851e0bc5981fb29" + " " + "absolute top-0 left-0 w-40 animate-bunga-muncul"
+                        className: "jsx-a851e0bc5981fb29" + " " + "absolute top-0 left-0 w-40 animate-float"
                     }, void 0, false, {
                         fileName: "[project]/src/app/[kode]/page.tsx",
                         lineNumber: 82,
