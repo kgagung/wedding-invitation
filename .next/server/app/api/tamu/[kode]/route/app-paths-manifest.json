@@ -1,0 +1,3 @@
+{
+  "/api/tamu/[kode]/route": "app/api/tamu/[kode]/route.js"
+}
