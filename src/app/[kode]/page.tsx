@@ -92,18 +92,24 @@ export default function UndanganPage() {
           src="/bunga-banyak.png"
           alt="bunga banyak"
           className="absolute top-0 left-0 w-40 animate-float"
+          width={500}
+          height={300}
           style={{ animationDelay: "0s" }}
         />
         <Image
           src="/bunga-biru.png"
           alt="bunga biru"
           className="absolute bottom-0 right-0 w-40 animate-bunga-muncul"
+          width={500}
+          height={300}
           style={{ animationDelay: "0.5s" }}
         />
         <Image
           src="/bunga-kuning.png"
           alt="bunga kuning"
           className="absolute bottom-1/3 right-0 w-32 animate-float animate-bunga-muncul"
+          width={500}
+          height={300}
           style={{ animationDelay: "1.5s" }}
         />
       </div>
