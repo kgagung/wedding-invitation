@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import clsx from "clsx";
 
 type Tamu = {
@@ -128,9 +127,11 @@ export default function UndanganPage() {
           />
         </div>
         <div className="z-10 text-center">
-          <h2 className="text-3xl font-bold mb-6">Undangan Pernikahan</h2>
-          <p className="text-xl mb-4">Kepada Yth:</p>
-          <p className="text-2xl font-semibold mb-8">{tamu.nama}</p>
+          <h2 className="text-3xl text-black font-bold mb-6">
+            Undangan Pernikahan
+          </h2>
+          <p className="text-xl text-black mb-4">Kepada Yth:</p>
+          <p className="text-2xl text-black font-semibold mb-8">{tamu.nama}</p>
           <button
             onClick={() => setStarted(true)}
             className="bg-pink-600 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-pink-700 transition"
@@ -172,7 +173,7 @@ export default function UndanganPage() {
 
       {/* Konten utama undangan */}
       <main className="relative z-10">
-        {sections.map((section, index) => (
+        {sections.map((section) => (
           <section
             key={section.id}
             id={section.id}
