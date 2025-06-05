@@ -4,5 +4,6 @@
   "/admin/page": "app/admin/page.js",
   "/api/tamu/[kode]/route": "app/api/tamu/[kode]/route.js",
   "/api/tamu/route": "app/api/tamu/route.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js"
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
 }

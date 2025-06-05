@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+import clsx from "clsx";
 
 type Tamu = {
   id: number;
@@ -12,22 +15,58 @@ type Tamu = {
   hadir: boolean;
 };
 
+const sections = [
+  {
+    id: "section-1",
+    title: "Cuplikan Ayat Al-Qur'an",
+    content:
+      '"Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan hidup..." (QS. Ar-Rum: 21)',
+    flower: "/bunga-biru.png",
+  },
+  {
+    id: "section-2",
+    title: "Salam Pengantar",
+    content:
+      "Assalamu’alaikum Warahmatullahi Wabarakatuh. Dengan memohon rahmat dan ridho Allah SWT, kami bermaksud menyelenggarakan pernikahan kami.",
+    flower: "/bunga-kuning.png",
+  },
+  {
+    id: "section-3",
+    title: "Nama Mempelai",
+    content:
+      "Erlina Elviana Istiqomah & Kuncoro Galih Agung. Putri dan putra dari keluarga besar kami.",
+    flower: "/bunga-banyak.png",
+  },
+  {
+    id: "section-4",
+    title: "Lokasi dan Waktu",
+    content:
+      "Wongsomenggolo, Klaten. Minggu, 16 November 2025 pukul 09.00 WIB.",
+    flower: "/bunga-biru.png",
+  },
+  {
+    id: "section-5",
+    title: "Galeri Prewedding",
+    content: "",
+    gallery: ["/foto1.jpg", "/foto2.jpg", "/foto3.jpg"],
+    flower: "/bunga-kuning.png",
+  },
+];
+
 export default function UndanganPage() {
   const params = useParams();
   const kode = params?.kode as string;
   const [tamu, setTamu] = useState<Tamu | null>(null);
   const [loading, setLoading] = useState(true);
-
-  const [started, setStarted] = useState(false); // tombol sudah ditekan
+  const [started, setStarted] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [currentSection, setCurrentSection] = useState(0);
 
-  // Fetch tamu
   useEffect(() => {
     const getTamu = async () => {
       try {
         const res = await fetch(`/api/tamu/${kode}`);
         if (!res.ok) throw new Error("Tamu tidak ditemukan");
-
         const data = await res.json();
         setTamu(data);
       } catch (err) {
@@ -40,7 +79,19 @@ export default function UndanganPage() {
     if (kode) getTamu();
   }, [kode]);
 
-  // Play musik saat tombol ditekan
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollPos = window.scrollY + window.innerHeight / 2;
+      const index = sections.findIndex((_, i) => {
+        const el = document.getElementById(sections[i].id);
+        return el && scrollPos < el.offsetTop + el.offsetHeight;
+      });
+      setCurrentSection(index === -1 ? sections.length - 1 : index);
+    };
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   useEffect(() => {
     if (started && audioRef.current) {
       audioRef.current.muted = false;
@@ -54,7 +105,6 @@ export default function UndanganPage() {
 
   return (
     <>
-      {/* Audio */}
       <audio
         ref={audioRef}
         src="/music/Nadin Amizah - Berpayung Tuhan (Official Music Video) - Nadin Amizah.mp3"
@@ -62,104 +112,108 @@ export default function UndanganPage() {
         muted
       />
 
-      {/* Overlay full screen awal */}
+      {/* Overlay awal dengan background bunga penuh */}
       <div
-        className={`fixed inset-0 bg-opacity-90 flex flex-col items-center justify-center z-50
-          transition-opacity duration-1000
-          ${started ? "opacity-0 pointer-events-none" : "opacity-100"}
-        `}
+        className={clsx(
+          "fixed inset-0 bg-green-50 bg-opacity-95 flex flex-col items-center justify-center z-50 transition-opacity duration-1000",
+          started ? "opacity-0 pointer-events-none" : "opacity-100"
+        )}
       >
-        <h2 className="text-3xl font-bold mb-6">Undangan Pernikahan</h2>
-        <p className="text-xl mb-4">Kepada Yth:</p>
-        <p className="text-2xl font-semibold mb-8">{tamu.nama}</p>
-        <button
-          onClick={() => setStarted(true)}
-          className="bg-pink-600 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-pink-700 transition"
-        >
-          Buka Undangan
-        </button>
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/bunga-biru.png"
+            alt="Background bunga"
+            fill
+            className="object-cover"
+          />
+        </div>
+        <div className="z-10 text-center">
+          <h2 className="text-3xl font-bold mb-6">Undangan Pernikahan</h2>
+          <p className="text-xl mb-4">Kepada Yth:</p>
+          <p className="text-2xl font-semibold mb-8">{tamu.nama}</p>
+          <button
+            onClick={() => setStarted(true)}
+            className="bg-pink-600 text-white px-8 py-3 rounded-lg shadow-lg hover:bg-pink-700 transition"
+          >
+            Buka Undangan
+          </button>
+        </div>
       </div>
 
-      {/* Bunga animasi di sisi-sisi, muncul setelah tombol ditekan */}
-      <div
-        className={`fixed inset-0 pointer-events-none z-40
-          transition-opacity duration-1500
-          ${started ? "opacity-100" : "opacity-0"}
-        `}
-      >
-        {/* Contoh bunga animasi di tiap sisi */}
-        <Image
-          src="/bunga-banyak.png"
-          alt="bunga banyak"
-          className="absolute top-0 left-0 w-40 animate-float"
-          width={500}
-          height={300}
-          style={{ animationDelay: "0s" }}
-        />
-        <Image
-          src="/bunga-biru.png"
-          alt="bunga biru"
-          className="absolute bottom-0 right-0 w-40 animate-bunga-muncul"
-          width={500}
-          height={300}
-          style={{ animationDelay: "0.5s" }}
-        />
-        <Image
-          src="/bunga-kuning.png"
-          alt="bunga kuning"
-          className="absolute bottom-1/3 right-0 w-32 animate-float animate-bunga-muncul"
-          width={500}
-          height={300}
-          style={{ animationDelay: "1.5s" }}
-        />
+      {/* Bunga sisi-sisi setelah dibuka */}
+      <div className="relative overflow-x-hidden">
+        {/* Floating flowers per section */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={sections[currentSection].flower}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 1 }}
+            className="fixed top-0 left-0 w-full h-full pointer-events-none z-0"
+          >
+            <Image
+              src={sections[currentSection].flower}
+              alt="bunga"
+              width={250}
+              height={250}
+              className="absolute top-5 left-5 animate-float"
+            />
+            <Image
+              src={sections[currentSection].flower}
+              alt="bunga"
+              width={200}
+              height={200}
+              className="absolute bottom-5 right-5 animate-float"
+            />
+          </motion.div>
+        </AnimatePresence>
       </div>
 
       {/* Konten utama undangan */}
-      <main
-        className={`flex flex-col items-center justify-center min-h-screen p-6 transition-opacity duration-1000
-          ${started ? "opacity-100" : "opacity-0"}
-        `}
-      >
-        <div className="p-6 rounded shadow w-full max-w-md relative z-10">
-          <h1 className="text-2xl font-bold mb-2">Undangan Pernikahan</h1>
-          <p className="mb-4">Kepada Yth:</p>
-          <p className="text-lg font-semibold">{tamu.nama}</p>
-          <p className="mb-6 text-sm">{tamu.alamat}</p>
-        </div>
-        <h2 className="text-4xl font-bold mt-8">The Wedding of</h2>
-        <p className="mt-2 text-2xl">
-          Erlina Elviana Istiqomah & Kuncoro Galih Agung
-        </p>
+      <main className="relative z-10">
+        {sections.map((section, index) => (
+          <section
+            key={section.id}
+            id={section.id}
+            className="min-h-screen flex flex-col items-center justify-center text-center px-4 py-24"
+          >
+            <h2 className="text-4xl font-bold mb-6">{section.title}</h2>
+            <p className="text-lg max-w-2xl">{section.content}</p>
 
-        <div className="mt-4 text-center max-w-md">
-          <p>Putri dari Bapak Ridwan Setyawan & Ibu Yuli Isruslina</p>
-          <p>Putra dari Bapak Supriyanto & Ibu Srimiyem</p>
-        </div>
-
-        <div className="mt-6 max-w-md text-center">
-          <p className="text-lg">Alamat Acara:</p>
-          <p>Wongsomenggolo, Klaten</p>
-        </div>
+            {section.gallery && (
+              <div className="flex flex-wrap justify-center gap-4 mt-6">
+                {section.gallery.map((img, i) => (
+                  <Image
+                    key={i}
+                    src={img}
+                    alt={`Galeri ${i + 1}`}
+                    width={200}
+                    height={200}
+                    className="rounded-lg shadow"
+                  />
+                ))}
+              </div>
+            )}
+          </section>
+        ))}
       </main>
 
-      {/* Tambahkan CSS animasi */}
+      {/* Style tambahan */}
       <style jsx>{`
-        @keyframes bungaMuncul {
+        @keyframes float {
           0% {
-            opacity: 0;
-            transform: scale(0.5) translateY(50px);
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-20px);
           }
           100% {
-            opacity: 1;
-            transform: scale(1) translateY(0);
+            transform: translateY(0);
           }
         }
-        .animate-bunga-muncul {
-          animation-name: bungaMuncul;
-          animation-duration: 1s;
-          animation-fill-mode: forwards;
-          animation-timing-function: ease-out;
-          opacity: 0;
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
         }
       `}</style>
     </>
