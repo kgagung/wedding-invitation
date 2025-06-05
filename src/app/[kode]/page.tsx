@@ -33,14 +33,13 @@ const sections = [
     id: "section-3",
     title: "Nama Mempelai",
     content:
-      "Erlina Elviana Istiqomah & Kuncoro Galih Agung. Putri dan putra dari keluarga besar kami.",
+      "Mempelai Wanita & Mempelai Pria. Putri dan putra dari keluarga besar kami.",
     flower: "/bunga-banyak.png",
   },
   {
     id: "section-4",
     title: "Lokasi dan Waktu",
-    content:
-      "Wongsomenggolo, Klaten. Minggu, 16 November 2025 pukul 09.00 WIB.",
+    content: "Sak sak e penting sah",
     flower: "/bunga-biru.png",
   },
   {
